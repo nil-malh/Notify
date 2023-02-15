@@ -13,6 +13,23 @@ from instagrapi import Client
 from instagrapi.mixins.challenge import ChallengeChoice
 from instagrapi.types import NoteResponse
 from dotenv import load_dotenv
+def print_welcome_message():
+
+    logo = '''⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⣶⣶⣶⣶⣤⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⡀⠀⠀⠀⠀
+⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀
+⠀⢀⣾⣿⡿⠿⠛⠛⠛⠉⠉⠉⠉⠛⠛⠛⠿⠿⣿⣿⣿⣿⣿⣷⡀⠀
+⠀⣾⣿⣿⣇⠀⣀⣀⣠⣤⣤⣤⣤⣤⣀⣀⠀⠀⠀⠈⠙⠻⣿⣿⣷⠀
+⢠⣿⣿⣿⣿⡿⠿⠟⠛⠛⠛⠛⠛⠛⠻⠿⢿⣿⣶⣤⣀⣠⣿⣿⣿⡄
+⢸⣿⣿⣿⣿⣇⣀⣀⣤⣤⣤⣤⣤⣄⣀⣀⠀⠀⠉⠛⢿⣿⣿⣿⣿⡇
+⠘⣿⣿⣿⣿⣿⠿⠿⠛⠛⠛⠛⠛⠛⠿⠿⣿⣶⣦⣤⣾⣿⣿⣿⣿⠃      █▄░█ █▀█ ▀█▀ █ █▀▀ █▄█                                          
+⠀⢿⣿⣿⣿⣿⣤⣤⣤⣤⣶⣶⣦⣤⣤⣄⡀⠈⠙⣿⣿⣿⣿⣿⡿⠀      █░▀█ █▄█ ░█░ █ █▀░ ░█░
+⠀⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⡿⠁⠀
+⠀⠀⠀⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀
+⠀⠀⠀⠀⠈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠁⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠛⠿⠿⠿⠿⠛⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀'''
+
+    print(logo)
 
 def debug(message):
     timestamp = datetime.now().strftime('%H:%M:%S')
@@ -41,6 +58,7 @@ def setup_env_file():
             env_file.write(f"IG_PASSWORD={ig_password}\n")
 
 
+print_welcome_message()
 setup_env_file()
 load_dotenv()
 
@@ -140,8 +158,8 @@ if __name__ == '__main__':
     trigged_fail = False
     while True:
         try:
-           # bot.update(sp)
-            sleep(SLEEP_TIME)
+            bot.update(sp)
+            sleep(int(SLEEP_TIME))
         except spotipy.exceptions.SpotifyException as e:
             if e.http_status == 401:
                 debug("Token has expired, refreshing it...")
