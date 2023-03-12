@@ -134,7 +134,7 @@ class Bot:
         if len(note_content) < 60:
                 self._cl.send_note(f"🎧: {song_name} - {artist}",0)
         else:
-            raise Exception(f'The content of the note is too long. (note_content_len : {len(note_content)}')
+            print(f'The content of the note is too long. (note_content_len : {len(note_content)})')
         previous_note = note_content
 
 
