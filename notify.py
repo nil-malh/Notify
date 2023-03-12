@@ -118,8 +118,9 @@ class Bot:
             debug(f'Connecting to Instagram as {IG_USERNAME}')
             self._cl.login(IG_USERNAME, IG_PASSWORD)
         else:
+            TOTA = input("Please enter your 2FA code in order to connect to Instagram.")
             debug(f'Connecting to Instagram as {IG_USERNAME} for the first time, with 2FA code : {TOTA}')
-            self._cl.login(IG_USERNAME, IG_PASSWORD,verification_code = TOTA)
+            self._cl.login(IG_USERNAME, IG_PASSWORD, verification_code=TOTA)
             debug('Instagram Credentials has been saved !')
             self._cl.dump_settings(IG_CREDENTIAL_PATH)
 
