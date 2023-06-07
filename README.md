@@ -50,7 +50,7 @@ To run this project, you will need to add the following environment variables to
 
 #### How can I generate a refresh_token ? 
 
-You can use this [project]("https://github.com/limhenry/spotify-refresh-token-generator") made by [@limhenry]("https://github.com/limhenry") to generate your refresh_token please be sure to check the scope `user-read-currently-playing` in order to authorize Notify to ask Spotify what you are currently listening to.
+You can use this [project](https://github.com/limhenry/spotify-refresh-token-generator) made by [@limhenry](https://github.com/limhenry) to generate your refresh_token please be sure to check the scope `user-read-currently-playing` in order to authorize Notify to ask Spotify what you are currently listening to.
 
 #### What value shoud I put in `BOT_REFRESH_RATE ?`
 
