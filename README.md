@@ -35,8 +35,12 @@ To run this project, you will need to add the following environment variables to
 `BOT_REFRESH_RATE`:
 *The intervals between two notes sent to the Instagram API*
 
+`SONG_SEPARATOR`:
+*The separator between the song name and the artist*
+
 `IG_USERNAME`
 *Your Instagram username*
+
 `IG_PASSWORD`
 *Your Instagram password*
 
