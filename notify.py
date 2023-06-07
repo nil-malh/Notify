@@ -44,7 +44,7 @@ def setup_env_file():
         refresh_token = input("Please enter your Spotify refresh token: ")
         bot_refresh_rate = input("Please enter the bot refresh rate (in seconds): ")
         note_prefix = input("Please enter the desired prefix that will be displayed before the song name and artist")
-
+        separator = input("Please enter the separator between the song name and the artist")
         ig_username = input("Please enter your Instagram username: ")
         ig_password = input("Please enter your Instagram password: ")
 
@@ -57,6 +57,7 @@ def setup_env_file():
             env_file.write(f"SPOTIPY_CLIENT_SECRET={client_secret}\n")
             env_file.write(f"SPOTIPY_REFRESH_TOKEN={refresh_token}\n")
             env_file.write(f"BOT_REFRESH_RATE={bot_refresh_rate}\n")
+            env_file.write(f'SONG_SEPARATOR={separator}')
             env_file.write(f"IG_USERNAME={ig_username}\n")
             env_file.write(f"IG_PASSWORD={ig_password}\n")
             env_file.write(f"IG_NOTE_PREFIX={note_prefix}\n")
@@ -77,7 +78,7 @@ IG_NOTE_PREFIX = os.getenv("IG_NOTE_PREFIX")
 IG_CREDENTIAL_PATH = './ig_settings.json'
 
 SLEEP_TIME = os.getenv("BOT_REFRESH_RATE")  # in seconds
-
+SONG_SEPARATOR = os.getenv("SONG_SEPARATOR")
 # Spotify credentials
 SPOTIFY_CLIENT_ID = os.getenv("SPOTIPY_CLIENT_ID")
 SPOTIFY_CLIENT_SECRET = os.getenv("SPOTIPY_CLIENT_SECRET")
@@ -85,6 +86,8 @@ SPOTIFY_REFRESH_TOKEN = os.getenv("SPOTIPY_REFRESH_TOKEN")
 
 if not all([SPOTIFY_CLIENT_SECRET, SPOTIFY_CLIENT_ID, SPOTIFY_REFRESH_TOKEN]):
     raise Exception("Can't find Spotify credentials in the .env file")
+if not SONG_SEPARATOR:
+    SONG_SEPARATOR = "-"
 
 def get_access_token(client_id, client_secret, refresh_token):
     debug("Getting an access token from Spotify API ...")
@@ -132,13 +135,14 @@ class Bot:
             self._cl.dump_settings(IG_CREDENTIAL_PATH)
             debug('Instagram credentials has been saved !')
 
-    def send_music_note(self, song_name, artist):
+    def send_music_note(self, song_name, artist,separator):
+
         previous_note = None
-        note_content = f"{IG_NOTE_PREFIX} {song_name} - {artist}" if IG_NOTE_PREFIX else f"🎧  {song_name} - {artist}"
+        note_content = f"{IG_NOTE_PREFIX} {song_name} {separator} {artist}" if IG_NOTE_PREFIX else f"🎧  {song_name} {separator} {artist}"
         if note_content == previous_note and previous_note is not None:
             debug("The content of the note is the same as before, no need to send a new one")
         if len(note_content) < 60:
-            self._cl.send_note(f"{IG_NOTE_PREFIX} : {song_name} - {artist}" if IG_NOTE_PREFIX else f"🎧 : {song_name} - {artist}", 0)
+            self._cl.send_note(f"{IG_NOTE_PREFIX} : {song_name} {separator} {artist}" if IG_NOTE_PREFIX else f"🎧 : {song_name} {separator} {artist}", 0)
             previous_note = note_content
 
         else:
@@ -153,7 +157,7 @@ class Bot:
             note_content = f"{song_name} - {artist}"
             debug(note_content)
             debug("Sending note to Instagram API.")
-            bot.send_music_note(song_name, artist)
+            bot.send_music_note(song_name, artist,SONG_SEPARATOR)
             debug(f'Note should be set on {IG_USERNAME} account.')
         else:
             debug("Nothing is playing currently.")
